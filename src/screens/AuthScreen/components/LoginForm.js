@@ -34,6 +34,7 @@ const LoginForm = ({ handleLogin }) => {
         )}
         name="serverAddress"
         rules={{ required: true }}
+        defaultValue="https://kdh.myeu.cloud"
       />
       {errors.serverAddress && <Text>This is required.</Text>}
 

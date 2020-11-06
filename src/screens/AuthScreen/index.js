@@ -8,9 +8,8 @@ import { useStateValue } from '../../state';
 import * as Keychain from 'react-native-keychain';
 
 const AuthScreen = ({ KEY }) => {
-  const [{ api }, dispatch]= useStateValue();
-  console.log(thing)
-  const [server, setServer] = useState();
+  const [{ api }, dispatch]= useStateValue()
+  const [server, setServer] = useState()
   const [authFlow, setAuthFlow] = useState(false);
   
   const handleLogin = ({ serverAddress }) => {
@@ -18,17 +17,21 @@ const AuthScreen = ({ KEY }) => {
     setAuthFlow(true);
   }
   
-  const handleSuccess = (settings) => {
-    AsyncStorage.setItem(KEY, settings.server)
-    Keychain.setInternetCredentials(
-      credentials.server,
-      credentials.username,
-      credentials.password
+  const handleSuccess = async (settings) => {
+    dispatch({
+      type: 'setIsLoading',
+      credentails: true
+    })
+    await AsyncStorage.setItem(KEY, settings.server)
+    await Keychain.setInternetCredentials(
+      settings.server,
+      settings.user,
+      settings.password
     )
     api.init(settings)
     dispatch({
-      type: "saveCredentials",
-      credentials: settings
+      type: 'setIsLoading',
+      credentails: false
     })
   }
 

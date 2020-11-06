@@ -43,8 +43,6 @@ const Webviewer = ({ server, setAuthFlow, handleSuccess }) => {
           console.log("2", bool)
           return bool
         }}
-        // ignoreSslError={true}
-        // javaScriptEnabled={true}
         automaticallyAdjustContentInsets
         onError={(err) => { console.log('onError', err) }}
         renderError={(err) => { console.log('renderError', err) }}

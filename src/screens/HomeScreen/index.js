@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, Text } from 'react-native'
+import { useStateValue } from '../../state';
 import Colors from '../../style/Colors'
 
-const HomeScreen = ({ navigation, route: { params: { api }} }) => {
+const HomeScreen = ({ navigation }) => {
+  const [{ api }, dispatch] = useStateValue()
+  {api.getFolderContents('/Photos', 0)}
   return (
-    <View>
+    <Text>
       We did it!
-    </View>
+    </Text>
   );
 }
 

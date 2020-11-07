@@ -17,7 +17,8 @@ const App = () => {
     KEY: KEY,
     credentials: null,
     api: api,
-    isLoading: true
+    isLoading: true,
+    lastResponse: null
   }
   
   const reducer = (state, action) => {
@@ -31,6 +32,11 @@ const App = () => {
         return {
           ...state,
           isLoading: action.isLoading
+        }
+      case 'setLastResponse':
+        return {
+          ...state,
+          lastResponse: action.lastResponse
         }
       default:
         return state;

@@ -1,34 +1,40 @@
 import Base64 from 'Base64'
 import parser from 'fast-xml-parser'
+import { useStateValue } from '../state'
+import PhotoFactory from './factories/PhotoFactory'
 
 export default class API {
     constructor() {
         this.headers = null
         this.rootFolder = null
+        this.serverUri = null
+        this.token = null
     }
 
     async init(settings) {
-        let str = `${settings.username}:${settings.password}`
         this.rootFolder = `${settings.service}/remote.php/dav/files/${settings.username}`
+        this.serverUri = settings.service
+        let str = `${settings.username}:${settings.password}`
+        this.token = Base64.btoa(str)
         this.headers = {
             Accept: "text/plain",
-            Authorization: `Basic ${Base64.btoa(str)}`
+            Authorization: `Basic ${this.token}`,
         }
     }
 
-    async getFolderContents(path, depth ) {
-        let response = await fetch(this.rootFolder + path, {
+    async getPhotos() {
+        let response = await fetch(this.rootFolder, {
             method: "PROPFIND",
-            headers: this.headers,
-            responseType: "text" 
+            headers: {
+                ...this.headers,
+                Depth: 99
+            },
+            responseType: "text"
         })
+
         if (response.ok) {
             let xml = await response.text()
-            let json = parser.parse(xml, {
-                arrayMode: false,
-                ignoreNameSpace: true
-            })
-            json.multistatus.response.map((thing)=>console.log(thing))
+            return this.parseXml(xml)
         } else {
             console.log('shits fucked')
         }
@@ -36,5 +42,14 @@ export default class API {
 
     isInitialised() {
         return !!this.headers
+    }
+
+    parseXml(xml) {
+        let data = parser.parse(xml, {
+            arrayMode: false,
+            ignoreNameSpace: true
+        })
+        
+        return PhotoFactory(data)
     }
 }

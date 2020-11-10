@@ -12,9 +12,9 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const appState = AppState.currentState;
-  const [{ isLoading, KEY, api }, dispatch] =  useStateValue()
+  const [{ isLoading, KEY, api }, dispatch] = useStateValue()
 
-  const init = async () => {
+  const _init = async () => {
     const server = await AsyncStorage.getItem(KEY)
     if (server) {
       const hasCredentials = await Keychain.hasInternetCredentials(server)
@@ -30,7 +30,7 @@ const App = () => {
   }
   
   if (isLoading) {
-    {init()}
+    {_init()}
     return (
       <View>
         <ActivityIndicator size="large" />

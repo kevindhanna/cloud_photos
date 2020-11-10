@@ -10,6 +10,8 @@ target 'CloudPhotos' do
 
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'CloudPhotosTests' do
     inherit! :complete
     # Pods for testing

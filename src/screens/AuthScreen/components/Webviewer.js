@@ -7,7 +7,7 @@ import { WebView } from 'react-native-webview'
 import Colors from '../../../style/Colors'
 
 const Webviewer = ({ server, setAuthFlow, handleSuccess }) => {
-  const handleOpenURL = (event) => {
+  const _handleOpenURL = (event) => {
     if (/^nc:\/\/login/.test(event.url)) {
       setAuthFlow(false)
       const matches = event.url.match(/(server|user|password):([^&]+)/g)
@@ -34,12 +34,12 @@ const Webviewer = ({ server, setAuthFlow, handleSuccess }) => {
           }
         }}
         onShouldStartLoadWithRequest={(event) => {
-          bool = handleOpenURL(event)
+          bool = _handleOpenURL(event)
           console.log("1", bool)
           return bool
         }}
         onNavigationStateChange={(event) => {
-          bool = handleOpenURL(event)
+          bool = _handleOpenURL(event)
           console.log("2", bool)
           return bool
         }}
